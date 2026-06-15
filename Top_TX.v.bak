@@ -1,0 +1,114 @@
+module Top_TX (
+    input  wire        clk_in,
+    input  wire        rst,
+    input  wire [7:0]  switches,       // palabra (MSB->LSB)
+    input  wire [19:0] switches_err,   // error (10 pares, MSB->LSB)
+    input  wire        start_cod,
+
+    // Debug
+    output wire        led_clk_debug,
+    output wire        led_par_valid,
+    output wire [19:0] leds_codigo20,
+
+    // Enlace a RX
+    output wire        link_clk,
+    output wire        link_rst,
+    output wire [1:0]  link_data,
+    output wire        link_valid,
+    output wire        link_frame_end
+);
+    // ========= Reloj lento =========
+    wire clk_lento;
+    divisor_frecuencia_v3 #(.DIV(12_500_000)) u_div (
+        .clk_in (clk_in),
+        .rst    (rst),
+        .clk_out(clk_lento)
+    );
+    assign led_clk_debug = clk_lento;
+
+    // ========= Sincronizador de start_cod a clk_lento =========
+    reg start_q1, start_q2;
+    always @(posedge clk_lento or posedge rst) begin
+      if (rst) begin
+        start_q1 <= 1'b0;
+        start_q2 <= 1'b0;
+      end else begin
+        start_q1 <= start_cod;   // muestrea start_cod en clk_lento
+        start_q2 <= start_q1;    // 2º flop
+      end
+    end
+
+    // Pulso de 1 ciclo en clk_lento (T)
+    wire start_rise = start_q1 & ~start_q2;
+
+    // Retardo 1 ciclo: arrancar coder/ruido en T+1 (palabra ya capturada)
+    reg start_rise_d;            // T+1
+    always @(posedge clk_lento or posedge rst) begin
+      if (rst) start_rise_d <= 1'b0;
+      else     start_rise_d <= start_rise;
+    end
+    wire iniciar_pulse = start_rise_d;
+
+    // ========= Palabra (8b) =========
+    wire [7:0] palabra_sw;
+    // Captura atómica en T (antes de iniciar coder/ruido en T+1)
+    Entrada_8bits u_entrada_word (
+        .clk       (clk_lento),
+        .rst       (rst),
+        .start_cod (start_rise),
+        .switches  (switches),
+        .salida_o  (palabra_sw)
+    );
+
+    // ========= Nets internas que sí usa el TB =========
+    // (¡no cambiar nombres! el TB las observa jerárquicamente)
+    wire        s1_cod, s2_cod;
+    wire        par_valid_cod;
+    wire [1:0]  err_pair;
+
+    // ========= Codificador =========
+    CodConv3 #(
+        .K(3), .N(8), .RESPUESTA(6'b111011),   // G1=111, G2=101
+        .GUARD_PAIRS(1)
+    ) u_cod (
+        .clk                (clk_lento),
+        .rst                (rst),
+        .iniciar            (iniciar_pulse),
+        .mensaje            (palabra_sw),
+        .salida1_o          (s1_cod),          // G1
+        .salida2_o          (s2_cod),          // G2
+        .listo_o            (/* no usado */),
+        .par_valid_o        (par_valid_cod),   // 11 pulsos (10+guarda)
+        .codigo_o_acumulado (/* no usado */)
+    );
+
+    // ========= Ruido/Errores =========
+    Ruido_Pares20 u_ruido (
+        .clk       (clk_lento),
+        .rst       (rst),
+        .start     (iniciar_pulse),   // mismo token que el coder (T+1)
+        .vector20  (switches_err),    // [19:18] = primer par (MSB->LSB)
+        .advance_i (par_valid_cod),   // avanza 1 par cuando el COD valida
+        .par_o     (err_pair),
+        .valid_o   (),                // no usado
+        .done_o    ()                 // no usado
+    );
+
+    // ========= Inserción XOR (pipeline en el submódulo) =========
+    Insercion_Error_Bits #(.USE_XOR(1)) u_inserter (
+        .clk            (clk_lento),
+        .rst            (rst),
+        .en             (par_valid_cod),       // 11 pulsos del COD
+        .par_codificado ({s1_cod, s2_cod}),    // {G1,G2}
+        .par_erroneo    (err_pair),            // par de error alineado
+        .par_alterado   (link_data),
+        .par_valid_o    (link_valid),
+        .codif_alterada (leds_codigo20),       // 10 pares MSB->LSB
+        .listo          (link_frame_end)       // 1 ciclo pos-guarda
+    );
+
+    // ========= Señales de enlace/debug =========
+    assign led_par_valid = link_valid;
+    assign link_clk      = clk_lento;
+    assign link_rst      = rst;
+endmodule

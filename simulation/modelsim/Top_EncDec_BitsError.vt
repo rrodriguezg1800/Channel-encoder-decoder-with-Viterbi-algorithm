@@ -1,0 +1,174 @@
+`timescale 1ns/1ps
+module Top_EncDec_BitsError_vlg_tst;
+
+  // -------------------- Parámetros --------------------
+  localparam real T_CLK  = 10.0; // 100 MHz
+  localparam      DIV_TB = 4;    // acelera clk_lento en sim
+
+  // -------------------- Estímulos --------------------
+  reg         clk_in;
+  reg         rst;
+  reg  [7:0]  switches;
+  reg  [19:0] switches_err;
+  reg         start_cod;
+
+  // -------------------- Observables del DUT --------------------
+  wire        led_clk_tx_debug;
+  wire        led_par_valid_tx;
+  wire [19:0] leds_codigo20;
+
+  wire        led_clk_rx_debug;   // == RX clk de enlace
+  wire        led_par_valid_rx;   // == strobe del enlace
+  wire        dec_listo;
+  wire [9:0]  palabra_o;          // 10b
+  wire [7:0]  palabra8_o;         // 8b (MSB de palabra_o)
+
+  // --- Alias de ENTRADAS AL RX (desde el DUT) ---
+  wire        rx_clk   = led_clk_rx_debug;
+  wire        rx_rst   = dut.link_rst;
+  wire        rx_en    = dut.link_frame_end;
+  wire [19:0] rx_sec   = leds_codigo20;
+
+  // -------------------- Reloj --------------------
+  initial begin
+    clk_in = 1'b0;
+    forever #(T_CLK/2.0) clk_in = ~clk_in;
+  end
+
+  // -------------------- DUT --------------------
+  Top_EncDec_BitsError dut (
+    .clk_in           (clk_in),
+    .rst              (rst),
+    .switches         (switches),
+    .switches_err     (switches_err),
+    .start_cod        (start_cod),
+
+    .led_clk_tx_debug (led_clk_tx_debug),
+    .led_par_valid_tx (led_par_valid_tx),
+    .leds_codigo20    (leds_codigo20),
+
+    .led_clk_rx_debug (led_clk_rx_debug),
+    .led_par_valid_rx (led_par_valid_rx),
+    .dec_listo        (dec_listo),
+
+    .palabra_o        (palabra_o),
+    .palabra8_o       (palabra8_o)   // NUEVO
+  );
+
+  // Acelerar el divisor interno del TX (comenta si tu sim no acepta defparam jerárquico)
+  defparam dut.u_tx.u_div.DIV = DIV_TB;
+
+  // -------------------- Dump de ondas --------------------
+  initial begin
+    $dumpfile("Top_EncDec_BitsError_tb.vcd");
+    $dumpvars(0, Top_EncDec_BitsError_vlg_tst);
+  end
+
+  // -------------------- Contador de valid del enlace --------------------
+  integer vcnt;
+  always @(posedge led_clk_rx_debug) begin
+    if (led_par_valid_rx) vcnt = vcnt + 1;
+  end
+
+  // Log del pulso de EN del RX
+  always @(posedge rx_en) begin
+    $display("[%0t] RX.EN PULSE  rx_en=1  rx_sec=%020b", $time, rx_sec);
+  end
+
+  // -------------------- Tareas --------------------
+  task apply_reset;
+    begin
+      rst = 1'b1;
+      start_cod    = 1'b0;
+      switches     = 8'h00;
+      switches_err = 20'h0;
+      vcnt         = 0;
+      repeat (20) @(posedge clk_in);
+      rst = 1'b0;
+      $display("[%0t] RESET released", $time);
+      repeat (10) @(posedge clk_in);
+    end
+  endtask
+
+  task pulse_start;
+    begin
+      start_cod = 1'b1;
+      repeat (8) @(posedge clk_in);
+      start_cod = 1'b0;
+    end
+  endtask
+
+  // Ejecuta un caso
+  task run_case(input [19:0] vec_err, input [127*8:1] tag);
+    integer to;
+    begin
+      switches     = 8'b10111110;  // palabra fija
+      switches_err = vec_err;
+      vcnt         = 0;
+
+      $display("================================================================");
+      $display("[%0t] INICIO %s  switches=%b  switches_err=%020b",
+               $time, tag, switches, switches_err);
+      $display("         RX.inputs (previo): clk=%0b rst=%0b en=%0b sec=%020b",
+               rx_clk, rx_rst, rx_en, rx_sec);
+
+      pulse_start();
+
+      // Watchdog: espera dec_listo con timeout
+      to = 0;
+      while (!dec_listo && to < 500000) begin
+        @(posedge clk_in);
+        to = to + 1;
+      end
+      if (!dec_listo) begin
+        $display("[%0t] TIMEOUT esperando dec_listo en %s", $time, tag);
+        $display("         RX.inputs (timeout): clk=%0b rst=%0b en=%0b sec=%020b",
+                 rx_clk, rx_rst, rx_en, rx_sec);
+        $finish;
+      end
+
+      // Reporte al finalizar (muestra 10b y 8b)
+      $display("[%0t] FIN   %s  dec_listo=1  palabra_o(10b)=%b  palabra8_o(8b)=%b  leds_codigo20=%020b  valid_pulses=%0d",
+               $time, tag, palabra_o, palabra8_o, leds_codigo20, vcnt);
+      $display("         RX.inputs (final):  clk=%0b rst=%0b en=%0b sec=%020b",
+               rx_clk, rx_rst, rx_en, rx_sec);
+      $display("================================================================");
+
+      // mini-reset entre casos
+      repeat (5) @(posedge clk_in);
+      rst = 1'b1;
+      repeat (5) @(posedge clk_in);
+      rst = 1'b0;
+      repeat (10) @(posedge clk_in);
+    end
+  endtask
+
+  // -------------------- Estímulos --------------------
+  initial begin
+    apply_reset();
+
+    // === 18 vectores de prueba ===
+    run_case(20'b0000_0000_0000_0000_0000, "Vector0 : 00000000000000000000");
+    run_case(20'b0000_0000_0000_0100_0011, "Vector1 : 00000000000001000011");
+    run_case(20'b0000_0000_0000_0100_0111, "Vector2 : 00000000000001000111");
+    run_case(20'b0000_0000_0000_0101_0111, "Vector3 : 00000000000001010111");
+    run_case(20'b0100_0000_1000_0000_0100, "Vector4 : 01000000100000000100");
+    run_case(20'b0100_0010_0000_1000_0001, "Vector5 : 01000010000010000001");
+    run_case(20'b0010_0000_0100_0010_0000, "Vector6 : 00100000010000100000");
+    run_case(20'b0000_0100_0001_0000_1000, "Vector7 : 00000100000100001000");
+    run_case(20'b0000_0100_0001_0000_1001, "Vector8 : 00000100000100001001");
+    run_case(20'b0100_0100_0001_0000_1001, "Vector9 : 01000100000100001001");
+    run_case(20'b0010_0000_0100_0010_0001, "Vector10: 00100000010000100001");
+    run_case(20'b0110_0000_0000_0000_0000, "Vector11: 01100000000000000000");
+    run_case(20'b0100_0001_0000_0100_0001, "Vector12: 01000001000001000001");
+    run_case(20'b1000_0010_0000_1000_0010, "Vector13: 10000010000010000010");
+    run_case(20'b1000_0100_0010_0001_0000, "Vector14: 10000100001000010000");
+    run_case(20'b1000_1000_1000_1000_1000, "Vector15: 10001000100010001000");
+    run_case(20'b0000_1100_0000_0001_0000, "Vector16: 00001100000000010000");
+    run_case(20'b0000_1100_0000_0010_0000, "Vector17: 00001100000000100000");
+
+    $display("Simulacion terminada.");
+    $finish;
+  end
+
+endmodule

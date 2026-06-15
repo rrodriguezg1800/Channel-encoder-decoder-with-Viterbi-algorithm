@@ -1,0 +1,341 @@
+//==============================================================
+// Top_List_Decod_Viterbi_K3: wrapper compatible con tu interfaz,
+// añade la salida del 2º mejor camino y métricas.
+//==============================================================
+module Top_List_Decod_Viterbi_K3 #(
+    parameter integer L     = 20,
+    parameter integer DEPTH = 50
+)(
+    input  wire       clk, rst,
+    input  wire       par_valido_i,
+    input  wire       salida1_i,
+    input  wire       salida2_i,
+
+    // Igual que antes (mejor camino)
+    output wire       bit_decod_o,              // bit a bit (mejor)
+    output wire [9:0] salida_final_best_o,      // palabra (mejor)
+    output wire       listo_best_o,             // listo (mejor)
+
+    // Nuevos (camino alterno)
+    output wire [9:0] best_metric_o,            // métrica camino 1
+    output wire [9:0] salida_final_alt_o,       // palabra (alterno)
+    output wire       listo_alt_o,              // listo (alterno)
+    output wire [9:0] alt_metric_o,             // métrica camino 2
+    output wire       have_alt_o                // hubo 2º candidato válido
+);
+    wire [1:0] dec_in = {salida1_i, salida2_i};
+
+    ListDecod_Viterbi_K3_M2 #(.L(L), .DEPTH(DEPTH)) u_core (
+        .clk(clk),
+        .rst(rst),
+        .par_valido_i(par_valido_i),
+        .dec_in_i(dec_in),
+
+        .bit_best_o(bit_decod_o),
+        .best_word_o(salida_final_best_o),
+        .best_ready_o(listo_best_o),
+        .best_metric_o(best_metric_o),
+
+        .alt_word_o(salida_final_alt_o),
+        .alt_ready_o(listo_alt_o),
+        .alt_metric_o(alt_metric_o),
+        .have_alt_o(have_alt_o)
+    );
+endmodule
+
+
+//======================================================================
+// ListDecod_Viterbi_K3_M2
+//  - K=3 (generadores 7/5 octal), 4 estados (A,B,C,D).
+//  - Mantiene 2 sobrevivientes por estado (lista M=2).
+//  - Al final hace traceback en paralelo para mejor y alterno.
+//  - Interfaz y temporización compatibles con tu diseño.
+//======================================================================
+module ListDecod_Viterbi_K3_M2 #(
+    parameter integer L     = 20,    // profundidad de traceback real
+    parameter integer DEPTH = 50     // profundidad de memoria circular
+)(
+    input  wire       clk,
+    input  wire       rst,
+    input  wire       par_valido_i,      // pares reales + guarda (si la hay)
+    input  wire [1:0] dec_in_i,          // par crudo s1s2
+
+    // Mejor camino (compatible)
+    output reg        bit_best_o,
+    output reg [9:0]  best_word_o,
+    output reg        best_ready_o,
+    output reg [9:0]  best_metric_o,
+
+    // Camino alterno
+    output reg [9:0]  alt_word_o,
+    output reg        alt_ready_o,
+    output reg [9:0]  alt_metric_o,
+    output reg        have_alt_o
+);
+    // -------- util CLOG2 (Verilog-2001) ----------
+    function integer CLOG2;
+        input integer v;
+        integer i;
+        begin
+            v = v - 1;
+            for (i=0; v>0; i=i+1) v = v >> 1;
+            CLOG2 = (i==0)?1:i;
+        end
+    endfunction
+
+    // -------- Configuración de trama ----------
+    localparam integer DATA_BITS    = 10;
+    localparam integer TAIL_BITS    = 2;                  // K-1
+    localparam integer PAD_STEPS    = L + TAIL_BITS;      // p/flush
+    localparam integer TOTAL_STEPS  = DATA_BITS + PAD_STEPS;
+    localparam [9:0]   INF10        = 10'd1023;
+    localparam [5:0]   INF6         = 6'd63;
+
+    // Estados A=00, B=01, C=10, D=11
+    localparam [1:0] A=2'b00, B=2'b01, C=2'b10, D=2'b11;
+
+    // -------- Padding (misma política que tu módulo) --------
+    // Enmascara guarda/padding como 00 y genera pasos para ACS.
+    wire        wr_en_step;
+    wire [1:0]  in_eff;
+    wire        pad_active;
+    wire [CLOG2(PAD_STEPS+1)-1:0] pad_cnt_unused;
+    PaddingGen_K3 #(.DATA_BITS(DATA_BITS), .PAD_STEPS(PAD_STEPS)) u_pad (
+        .clk(clk), .rst(rst),
+        .par_valido_i(par_valido_i),
+        .dec_in_i(dec_in_i),
+        .wr_en_step_o(wr_en_step),
+        .dec_in_eff_o(in_eff),
+        .pad_active_o(pad_active),
+        .pad_cnt_o(pad_cnt_unused)
+    );
+
+    // Distancias (Hamming) a salidas 00,01,10,11
+    wire [1:0] d00,d01,d10,d11;
+    HammingGen_K3 u_ham (.dec_in_i(in_eff), .d00(d00), .d01(d01), .d10(d10), .d11(d11));
+
+    // ---------------- Lista: 2 métricas por estado ----------------
+    // M_S0 = mejor, M_S1 = alterno en estado S
+    reg [5:0] M_A0, M_A1, M_B0, M_B1, M_C0, M_C1, M_D0, M_D1;
+    reg       en_A0, en_A1, en_B0, en_B1, en_C0, en_C1, en_D0, en_D1;
+
+    // Candidatos por destino (cada uno puede venir de 2 pred * 2 lanes = 4 opciones)
+    // A <= de A(u=0/00) o B(u=0/11)
+    wire [5:0] cA_A0 = en_A0 ? (M_A0 + {4'b0,d00}) : INF6;
+    wire [5:0] cA_A1 = en_A1 ? (M_A1 + {4'b0,d00}) : INF6;
+    wire [5:0] cA_B0 = en_B0 ? (M_B0 + {4'b0,d11}) : INF6;
+    wire [5:0] cA_B1 = en_B1 ? (M_B1 + {4'b0,d11}) : INF6;
+
+    // B <= de C(u=0/10) o D(u=0/01)
+    wire [5:0] cB_C0 = en_C0 ? (M_C0 + {4'b0,d10}) : INF6;
+    wire [5:0] cB_C1 = en_C1 ? (M_C1 + {4'b0,d10}) : INF6;
+    wire [5:0] cB_D0 = en_D0 ? (M_D0 + {4'b0,d01}) : INF6;
+    wire [5:0] cB_D1 = en_D1 ? (M_D1 + {4'b0,d01}) : INF6;
+
+    // C <= de A(u=1/11) o B(u=1/00)
+    wire [5:0] cC_A0 = en_A0 ? (M_A0 + {4'b0,d11}) : INF6;
+    wire [5:0] cC_A1 = en_A1 ? (M_A1 + {4'b0,d11}) : INF6;
+    wire [5:0] cC_B0 = en_B0 ? (M_B0 + {4'b0,d00}) : INF6;
+    wire [5:0] cC_B1 = en_B1 ? (M_B1 + {4'b0,d00}) : INF6;
+
+    // D <= de C(u=1/01) o D(u=1/10)
+    wire [5:0] cD_C0 = en_C0 ? (M_C0 + {4'b0,d01}) : INF6;
+    wire [5:0] cD_C1 = en_C1 ? (M_C1 + {4'b0,d01}) : INF6;
+    wire [5:0] cD_D0 = en_D0 ? (M_D0 + {4'b0,d10}) : INF6;
+    wire [5:0] cD_D1 = en_D1 ? (M_D1 + {4'b0,d10}) : INF6;
+
+    // ---------- Selección de los 2 mejores por estado ----------
+    // Empaques para guardar en memoria de traceback (lane0/lane1)
+    // Por estado guardamos 4 bits: {pred_lane, pred_state[1:0], u}
+    //   u=0 para destinos A,B; u=1 para destinos C,D
+    reg [15:0] info_lane0_pack_c;  // [3:0]A, [7:4]B, [11:8]C, [15:12]D  (lane0)
+    reg [15:0] info_lane1_pack_c;  // idem lane1
+
+    // Métricas next
+    reg [5:0] nA0,nA1,nB0,nB1,nC0,nC1,nD0,nD1;
+    reg       n_en_A0,n_en_A1,n_en_B0,n_en_B1,n_en_C0,n_en_C1,n_en_D0,n_en_D1;
+
+    // helper: elige 2 mínimos de 4 candidatos
+    task pick2;
+        input  [5:0] v0,v1,v2,v3;
+        input  [3:0] tag0,tag1,tag2,tag3; // {pred_lane, pred_state[1:0], u}
+        output [5:0] m0,m1;
+        output [3:0] t0,t1;
+        output       e0,e1;               // enables
+        reg   [5:0]  best, second;
+        reg   [3:0]  btag, stag;
+        begin
+            best   = INF6; second = INF6;
+            btag   = 4'b0; stag = 4'b0;
+
+            if (v0 < best) begin second=best; stag=btag; best=v0; btag=tag0; end
+            else if (v0 < second) begin second=v0; stag=tag0; end
+
+            if (v1 < best) begin second=best; stag=btag; best=v1; btag=tag1; end
+            else if (v1 < second) begin second=v1; stag=tag1; end
+
+            if (v2 < best) begin second=best; stag=btag; best=v2; btag=tag2; end
+            else if (v2 < second) begin second=v2; stag=tag2; end
+
+            if (v3 < best) begin second=best; stag=btag; best=v3; btag=tag3; end
+            else if (v3 < second) begin second=v3; stag=tag3; end
+
+            m0 = best;  t0 = btag;  e0 = (best   != INF6);
+            m1 = second;t1 = stag;  e1 = (second != INF6);
+        end
+    endtask
+
+    // combinacional de ACS+lista (2 lanes por estado)
+    always @* begin
+        // A (u=0)
+        pick2(
+            cA_A0, cA_A1, cA_B0, cA_B1,
+            {1'b0, A, 1'b0}, {1'b1, A, 1'b0},
+            {1'b0, B, 1'b0}, {1'b1, B, 1'b0},
+            nA0, nA1, info_lane0_pack_c[3:0], info_lane1_pack_c[3:0], n_en_A0, n_en_A1
+        );
+
+        // B (u=0)
+        pick2(
+            cB_C0, cB_C1, cB_D0, cB_D1,
+            {1'b0, C, 1'b0}, {1'b1, C, 1'b0},
+            {1'b0, D, 1'b0}, {1'b1, D, 1'b0},
+            nB0, nB1, info_lane0_pack_c[7:4], info_lane1_pack_c[7:4], n_en_B0, n_en_B1
+        );
+
+        // C (u=1)
+        pick2(
+            cC_A0, cC_A1, cC_B0, cC_B1,
+            {1'b0, A, 1'b1}, {1'b1, A, 1'b1},
+            {1'b0, B, 1'b1}, {1'b1, B, 1'b1},
+            nC0, nC1, info_lane0_pack_c[11:8], info_lane1_pack_c[11:8], n_en_C0, n_en_C1
+        );
+
+        // D (u=1)
+        pick2(
+            cD_C0, cD_C1, cD_D0, cD_D1,
+            {1'b0, C, 1'b1}, {1'b1, C, 1'b1},
+            {1'b0, D, 1'b1}, {1'b1, D, 1'b1},
+            nD0, nD1, info_lane0_pack_c[15:12], info_lane1_pack_c[15:12], n_en_D0, n_en_D1
+        );
+    end
+
+    // ----------------- Secuencial, contadores y flush -----------------
+    reg [CLOG2(TOTAL_STEPS+1)-1:0] step_cnt_q;
+    reg                            flush_q, flush_arm_q;
+
+    // Traceback dual (memoria con lane0/lane1) ------------------------
+    wire tb_v0, tb_v1;
+    wire tb_bit0, tb_bit1;
+    reg  [1:0] end_state0_q, end_state1_q;
+    reg        end_lane0_q,  end_lane1_q;
+
+    // end-state/lane: elegir los 2 mejores globales al FINAL
+    // (entre 8 métricas: A0,A1,B0,B1,C0,C1,D0,D1)
+    function [15:0] pick2_global; // {lane1,state1[1:0],lane0,state0[1:0]} packed
+        input [5:0] a0,a1,b0,b1,c0,c1,d0,d1;
+        input       ea0,ea1,eb0,eb1,ec0,ec1,ed0,ed1;
+        reg   [5:0] v[0:7];
+        reg         e[0:7];
+        reg   [2:0] idx_best, idx_second;
+        integer i;
+        begin
+            v[0]=a0; e[0]=ea0;
+            v[1]=a1; e[1]=ea1;
+            v[2]=b0; e[2]=eb0;
+            v[3]=b1; e[3]=eb1;
+            v[4]=c0; e[4]=ec0;
+            v[5]=c1; e[5]=ec1;
+            v[6]=d0; e[6]=ed0;
+            v[7]=d1; e[7]=ed1;
+
+            idx_best=3'd0; idx_second=3'd0;
+            // find best
+            for (i=0;i<8;i=i+1) if (e[i] && v[i]<v[idx_best]) idx_best=i[2:0];
+            // find second
+            idx_second = 3'd7;
+            for (i=0;i<8;i=i+1) begin
+                if (e[i] && (i!=idx_best)) begin
+                    if ((!e[idx_second]) || (v[i] < v[idx_second])) idx_second=i[2:0];
+                end
+            end
+
+            // map idx-> (state,lane)
+            // 0:A0 1:A1 2:B0 3:B1 4:C0 5:C1 6:D0 7:D1
+            function [2:0] st_of; input [2:0] k; begin st_of = {1'b0, 1'b0, 1'b0}; end endfunction
+            function       ln_of; input [2:0] k; begin ln_of = 1'b0; end endfunction
+            // unfold
+            // state code: A=00,B=01,C=10,D=11
+            // lane: 0 (mejor) / 1 (alterno)
+            // best
+            pick2_global[0]   = (idx_best[0]); // lane0
+            case (idx_best)
+                3'd0: pick2_global[2:1]=A;
+                3'd1: begin pick2_global[2:1]=A; pick2_global[0]=1'b1; end
+                3'd2: pick2_global[2:1]=B;
+                3'd3: begin pick2_global[2:1]=B; pick2_global[0]=1'b1; end
+                3'd4: pick2_global[2:1]=C;
+                3'd5: begin pick2_global[2:1]=C; pick2_global[0]=1'b1; end
+                3'd6: pick2_global[2:1]=D;
+                3'd7: begin pick2_global[2:1]=D; pick2_global[0]=1'b1; end
+            endcase
+            // alt
+            pick2_global[4]   = (idx_second[0]); // lane1
+            case (idx_second)
+                3'd0: pick2_global[6:5]=A;
+                3'd1: begin pick2_global[6:5]=A; pick2_global[4]=1'b1; end
+                3'd2: pick2_global[6:5]=B;
+                3'd3: begin pick2_global[6:5]=B; pick2_global[4]=1'b1; end
+                3'd4: pick2_global[6:5]=C;
+                3'd5: begin pick2_global[6:5]=C; pick2_global[4]=1'b1; end
+                3'd6: pick2_global[6:5]=D;
+                3'd7: begin pick2_global[6:5]=D; pick2_global[4]=1'b1; end
+            endcase
+            // fill remaining bits to 0
+            pick2_global[15:7] = 9'd0;
+        end
+    endfunction
+
+    // Memoria de traceback: escribe en cada paso las decisiones de lane0/lane1
+    reg [15:0] info_lane0_pack_q, info_lane1_pack_q; // registradas 1 ciclo
+
+    // Señal de “último paso” para forzar estado final 00 (trellis tail)
+    reg last_wr_step_q;
+    reg [CLOG2(TOTAL_STEPS+1)-1:0] step_cnt_d;
+
+    // Traceback dual
+    wire [15:0] best_alt_packed; // {lane_alt, state_alt[1:0], lane_best, state_best[1:0]}
+    assign best_alt_packed = pick2_global(
+        M_A0, M_A1, M_B0, M_B1, M_C0, M_C1, M_D0, M_D1,
+        en_A0,en_A1,en_B0,en_B1,en_C0,en_C1,en_D0,en_D1
+    );
+
+    // Forzado de end_state=00 SOLO en el último write (tail bits)
+    wire force_tail = last_wr_step_q;
+
+    wire [1:0] end_state_best_w = force_tail ? A : best_alt_packed[2:1];
+    wire       end_lane_best_w  = force_tail ? 1'b0 : best_alt_packed[0];
+    wire [1:0] end_state_alt_w  = force_tail ? A : best_alt_packed[6:5];
+    wire       end_lane_alt_w   = force_tail ? 1'b0 : best_alt_packed[4];
+
+    Traceback_K3_List2 #(.DEPTH(DEPTH)) u_tb (
+        .clk(clk), .rst(rst),
+        .wr_en_i(wr_en_step),
+        .info_lane0_i(info_lane0_pack_q),
+        .info_lane1_i(info_lane1_pack_q),
+        .flush_i(flush_q),
+        .end_state0_i(end_state_best_w),
+        .end_lane0_i(end_lane_best_w),
+        .end_state1_i(end_state_alt_w),
+        .end_lane1_i(end_lane_alt_w),
+        .val0_o(tb_v0), .bit0_o(tb_bit0),
+        .val1_o(tb_v1), .bit1_o(tb_bit1)
+    );
+
+    // Acumuladores de salida y saltos de padding
+    reg [CLOG2(PAD_STEPS+1)-1:0] skip0_q, skip1_q;
+    reg [CLOG2(DATA_BITS+1)-1:0] out0_cnt_q, out1_cnt_q;
+
+    // ---------------- RESET / INIT ----------------
+    always @(posedge clk or posedge rst) begin
+        if (

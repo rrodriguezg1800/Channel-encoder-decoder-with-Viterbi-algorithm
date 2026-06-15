@@ -1,0 +1,36 @@
+module Top_Decod_Viterbi_K3 #(
+    parameter integer L     = 20,
+    parameter integer DEPTH = 50
+)(
+    input  wire       clk, rst,
+    input  wire       par_valido_i,
+    input  wire       salida1_i,
+    input  wire       salida2_i,
+    output wire       bit_decod_o,
+    output wire [9:0] salida_final_o,
+    output wire       listo_o
+);
+    reg       par_valido_r;
+    reg [1:0] dec_in_r;
+
+
+always @(posedge clk or posedge rst) begin
+    if (rst) begin
+        par_valido_r <= 1'b0;
+        dec_in_r     <= 2'b00;
+    end else begin
+        par_valido_r <= par_valido_i;
+        if (par_valido_i)        // ← muestrea solo con válido
+            dec_in_r <= {salida1_i, salida2_i};
+    end
+end
+
+    Decod_Viterbi_K3 #(.L(L), .DEPTH(DEPTH)) decod (
+        .clk(clk), .rst(rst),
+        .par_valido_i(par_valido_r),
+        .dec_in_i(dec_in_r),
+        .bit_decod_o(bit_decod_o),
+        .salida_final_o(salida_final_o),
+        .listo_o(listo_o)
+    );
+endmodule

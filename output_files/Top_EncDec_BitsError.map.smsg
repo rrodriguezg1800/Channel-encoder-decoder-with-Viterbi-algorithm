@@ -1,0 +1,2 @@
+Warning (10268): Verilog HDL information at CodConv3.v(45): always construct contains both blocking and non-blocking assignments File: C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/CodConv3.v Line: 45
+Warning (10268): Verilog HDL information at Top_Decod_Viterbi_K3_tbk.v(103): always construct contains both blocking and non-blocking assignments File: C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Top_Decod_Viterbi_K3_tbk.v Line: 103

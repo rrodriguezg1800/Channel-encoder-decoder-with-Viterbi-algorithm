@@ -1,0 +1,105 @@
+//===============================RX===============================
+
+module Top_RX (
+    // Enlace desde TX
+    input  wire        link_clk,
+    input  wire        link_rst,
+    input  wire [1:0]  link_data,        // {s1,s2}
+    input  wire        link_valid,       // par válido (11 ciclos por frame)
+    input  wire        link_frame_end,   // fin de trama desde TX (después del último par)
+
+    // Debug / salidas visibles en RX
+    output wire        led_clk_debug,
+    output wire        led_par_valid,
+    output wire        dec_listo,
+
+    // LCD 8-bit
+    output wire        DB0, DB1, DB2, DB3, DB4, DB5, DB6, DB7
+);
+
+    // ----------------- Debug básicos -----------------
+    assign led_clk_debug = link_clk;
+    assign led_par_valid = link_valid;
+
+    // ----------------- Registro de entrada -----------------
+    reg [1:0] in_data_q;
+    reg       in_valid_q;
+    always @(posedge link_clk or posedge link_rst) begin
+        if (link_rst) begin
+            in_data_q  <= 2'b00;
+            in_valid_q <= 1'b0;
+        end else begin
+            in_data_q  <= link_data;
+            in_valid_q <= link_valid;
+        end
+    end
+
+    // ----------------- FIFO por trama -----------------
+    // Debe ser la versión con cierre por flanco y "close_pending".
+    wire        fifo_out_valid;
+    wire [1:0]  fifo_out_data;
+
+    SyncFIFO #(.WIDTH(2), .DEPTH(16)) u_fifo (
+        .clk        (link_clk),
+        .rst        (link_rst),
+        .frame_end_i(link_frame_end),   // cierre cuando TX aserta listo
+        .in_valid   (in_valid_q),
+        .in_data    (in_data_q),
+        .in_ready   (/* sin uso */),
+        .out_valid  (fifo_out_valid),
+        .out_data   (fifo_out_data),
+        .out_ready  (1'b1)              // el DEC siempre listo
+    );
+
+    // -------- Rearme por frame del DECODER --------
+    // Se mantiene en reset hasta que llegue el 1er par del frame;
+    // vuelve a 1 al terminar el frame actual (dec_listo).
+    reg dec_soft_rst;
+    always @(posedge link_clk or posedge link_rst) begin
+        if (link_rst) begin
+            dec_soft_rst <= 1'b1;
+        end else begin
+            if (dec_listo)           dec_soft_rst <= 1'b1; // fin de frame
+            else if (fifo_out_valid) dec_soft_rst <= 1'b0; // inicia nuevo frame
+        end
+    end
+
+    // -------- Bridge 1 ciclo FIFO → DEC --------
+    reg [1:0] dec_pair_q;
+    reg       dec_valid_q;
+    always @(posedge link_clk or posedge link_rst) begin
+        if (link_rst) begin
+            dec_pair_q  <= 2'b00;
+            dec_valid_q <= 1'b0;
+        end else begin
+            dec_pair_q  <= fifo_out_data;
+            dec_valid_q <= fifo_out_valid;
+        end
+    end
+
+    // ----------------- DECODER -----------------
+    wire        bit_decod;
+    wire [9:0]  dec_salida_final_w;
+
+    Top_Decod_Viterbi_K3 #(.L(20), .DEPTH(50)) u_dec (
+        .clk            (link_clk),
+        .rst            (dec_soft_rst),
+        .par_valido_i   (dec_valid_q),
+        .salida1_i      (dec_pair_q[1]),
+        .salida2_i      (dec_pair_q[0]),
+        .bit_decod_o    (bit_decod),
+        .salida_final_o (dec_salida_final_w),
+        .listo_o        (dec_listo)
+    );
+
+    // ----------------- LCD -----------------
+    lcd_writer_8bit u_lcd (
+        .clk            (link_clk),
+        .rst            (link_rst),
+        .listo_i        (dec_listo),
+        .salida_final_i (dec_salida_final_w),
+        .d0(DB0), .d1(DB1), .d2(DB2), .d3(DB3),
+        .d4(DB4), .d5(DB5), .d6(DB6), .d7(DB7)
+    );
+
+endmodule

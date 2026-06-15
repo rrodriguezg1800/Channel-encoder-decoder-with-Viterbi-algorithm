@@ -1,0 +1,51 @@
+module Ruido_Pares20 (
+    input  wire        clk,
+    input  wire        rst,
+    input  wire        start,
+    input  wire [19:0] vector20,   // [19:18]=par0 ... [1:0]=par9
+    input  wire        advance_i,  // par_valid_cod
+
+    output reg  [1:0]  par_o,
+    output reg         valid_o,
+    output reg         done_o
+);
+    reg        start_d, busy;
+    reg [19:0] shreg;
+    reg [3:0]  idx;     // 0..9
+
+    always @(posedge clk or posedge rst) begin
+        if (rst) begin
+            start_d <= 1'b0;
+            busy    <= 1'b0;
+            shreg   <= 20'd0;
+            idx     <= 4'd0;
+            par_o   <= 2'b00;
+            valid_o <= 1'b0;
+            done_o  <= 1'b0;
+        end else begin
+            start_d <= start;
+            done_o  <= 1'b0;
+
+            if (start & ~start_d) begin
+                shreg   <= vector20;
+                idx     <= 4'd0;
+                par_o   <= vector20[19:18];
+                valid_o <= 1'b1;
+                busy    <= 1'b1;
+            end
+            else if (busy) begin
+                if (advance_i) begin
+                    if (idx == 4'd9) begin
+                        valid_o <= 1'b0;
+                        busy    <= 1'b0;
+                        done_o  <= 1'b1;
+                    end else begin
+                        shreg <= {shreg[17:0], 2'b00};
+                        idx   <= idx + 4'd1;
+                        par_o <= shreg[17:16];
+                    end
+                end
+            end
+        end
+    end
+endmodule

@@ -1,0 +1,364 @@
+# Reading pref.tcl
+# ERROR: No extended dataflow license exists
+# do Top_EncDec_BitsError_run_msim_rtl_verilog.do
+# if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }
+# vlib rtl_work
+# vmap work rtl_work
+# Model Technology ModelSim - Intel FPGA Edition vmap 2020.1 Lib Mapping Utility 2020.02 Feb 28 2020
+# vmap work rtl_work 
+# Copying C:/intelFPGA_lite/20.1/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# 
+# vlog -vlog01compat -work work +incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError {C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Top_TX.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 13:42:31 on Jun 15,2026
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError" C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Top_TX.v 
+# -- Compiling module Top_TX
+# 
+# Top level modules:
+# 	Top_TX
+# End time: 13:42:32 on Jun 15,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError {C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/CodConv3.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 13:42:32 on Jun 15,2026
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError" C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/CodConv3.v 
+# -- Compiling module CodConv3
+# 
+# Top level modules:
+# 	CodConv3
+# End time: 13:42:32 on Jun 15,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError {C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/divisor_frecuencia_v3.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 13:42:32 on Jun 15,2026
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError" C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/divisor_frecuencia_v3.v 
+# -- Compiling module divisor_frecuencia_v3
+# 
+# Top level modules:
+# 	divisor_frecuencia_v3
+# End time: 13:42:32 on Jun 15,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError {C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Entrada_8bits.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 13:42:32 on Jun 15,2026
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError" C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Entrada_8bits.v 
+# -- Compiling module Entrada_8bits
+# 
+# Top level modules:
+# 	Entrada_8bits
+# End time: 13:42:32 on Jun 15,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError {C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Ruido_Pares20.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 13:42:32 on Jun 15,2026
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError" C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Ruido_Pares20.v 
+# -- Compiling module Ruido_Pares20
+# 
+# Top level modules:
+# 	Ruido_Pares20
+# End time: 13:42:32 on Jun 15,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError {C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Top_RX.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 13:42:32 on Jun 15,2026
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError" C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Top_RX.v 
+# -- Compiling module Top_RX
+# 
+# Top level modules:
+# 	Top_RX
+# End time: 13:42:32 on Jun 15,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError {C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Top_Decod_Viterbi_K3.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 13:42:32 on Jun 15,2026
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError" C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Top_Decod_Viterbi_K3.v 
+# -- Compiling module Top_Decod_Viterbi_K3
+# 
+# Top level modules:
+# 	Top_Decod_Viterbi_K3
+# End time: 13:42:32 on Jun 15,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError {C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Decod_Viterbi_K3.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 13:42:32 on Jun 15,2026
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError" C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Decod_Viterbi_K3.v 
+# -- Compiling module Decod_Viterbi_K3
+# 
+# Top level modules:
+# 	Decod_Viterbi_K3
+# End time: 13:42:32 on Jun 15,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError {C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/HammingGen_K3.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 13:42:32 on Jun 15,2026
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError" C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/HammingGen_K3.v 
+# -- Compiling module HammingGen_K3
+# 
+# Top level modules:
+# 	HammingGen_K3
+# End time: 13:42:32 on Jun 15,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError {C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/PaddingGen_K3.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 13:42:32 on Jun 15,2026
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError" C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/PaddingGen_K3.v 
+# -- Compiling module PaddingGen_K3
+# 
+# Top level modules:
+# 	PaddingGen_K3
+# End time: 13:42:32 on Jun 15,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError {C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/MetricSelector_K3.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 13:42:32 on Jun 15,2026
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError" C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/MetricSelector_K3.v 
+# -- Compiling module MetricSelector_K3
+# 
+# Top level modules:
+# 	MetricSelector_K3
+# End time: 13:42:32 on Jun 15,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError {C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Traceback_K3.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 13:42:32 on Jun 15,2026
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError" C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Traceback_K3.v 
+# -- Compiling module Traceback_K3
+# 
+# Top level modules:
+# 	Traceback_K3
+# End time: 13:42:32 on Jun 15,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError {C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Top_EncDec_BitsError.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 13:42:33 on Jun 15,2026
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError" C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Top_EncDec_BitsError.v 
+# -- Compiling module Top_EncDec_BitsError
+# 
+# Top level modules:
+# 	Top_EncDec_BitsError
+# End time: 13:42:33 on Jun 15,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError {C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/ACS_K3.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 13:42:33 on Jun 15,2026
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError" C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/ACS_K3.v 
+# -- Compiling module ACS_K3
+# 
+# Top level modules:
+# 	ACS_K3
+# End time: 13:42:33 on Jun 15,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError {C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/FrameControl.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 13:42:33 on Jun 15,2026
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError" C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/FrameControl.v 
+# -- Compiling module FrameControl
+# 
+# Top level modules:
+# 	FrameControl
+# End time: 13:42:33 on Jun 15,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError {C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Acumulador_Sec_Erronea.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 13:42:33 on Jun 15,2026
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError" C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Acumulador_Sec_Erronea.v 
+# -- Compiling module Acumulador_Sec_Erronea
+# 
+# Top level modules:
+# 	Acumulador_Sec_Erronea
+# End time: 13:42:33 on Jun 15,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -vlog01compat -work work +incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError {C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/serializador.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 13:42:33 on Jun 15,2026
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError" C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/serializador.v 
+# -- Compiling module serializador
+# 
+# Top level modules:
+# 	serializador
+# End time: 13:42:33 on Jun 15,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+# vlog -vlog01compat -work work +incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/simulation/modelsim {C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/simulation/modelsim/Top_EncDec_BitsError.vt}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 13:42:33 on Jun 15,2026
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/simulation/modelsim" C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/simulation/modelsim/Top_EncDec_BitsError.vt 
+# -- Compiling module Top_EncDec_BitsError_vlg_tst
+# 
+# Top level modules:
+# 	Top_EncDec_BitsError_vlg_tst
+# End time: 13:42:33 on Jun 15,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work -voptargs="+acc"  Top_EncDec_BitsError_vlg_tst
+# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cycloneive_ver -L rtl_work -L work -voptargs=""+acc"" Top_EncDec_BitsError_vlg_tst 
+# Start time: 13:42:33 on Jun 15,2026
+# Loading work.Top_EncDec_BitsError_vlg_tst
+# Loading work.Top_EncDec_BitsError
+# Loading work.Top_TX
+# Loading work.divisor_frecuencia_v3
+# Loading work.Entrada_8bits
+# Loading work.CodConv3
+# Loading work.Ruido_Pares20
+# Loading work.Acumulador_Sec_Erronea
+# Loading work.Top_RX
+# Loading work.serializador
+# Loading work.Top_Decod_Viterbi_K3
+# Loading work.Decod_Viterbi_K3
+# Loading work.HammingGen_K3
+# Loading work.PaddingGen_K3
+# Loading work.ACS_K3
+# Loading work.MetricSelector_K3
+# Loading work.Traceback_K3
+# Loading work.FrameControl
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (6) for port 'step_cnt_i'. The port definition is at: C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/PaddingGen_K3.v(9).
+#    Time: 0 ps  Iteration: 0  Instance: /Top_EncDec_BitsError_vlg_tst/dut/u_rx/u_dec/decod/pad_inst File: C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Decod_Viterbi_K3.v Line: 76
+# 
+# add wave *
+# ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
+#           File in use by: golyp  Hostname: HP-VICTUS15  ProcessID: 23068
+#           Attempting to use alternate WLF file "./wlfts7q9bh".
+# ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
+#           Using alternate file: ./wlfts7q9bh
+# view structure
+# .main_pane.structure.interior.cs.body.struct
+# view signals
+# .main_pane.objects.interior.cs.body.tree
+# run -all
+# [195000] RESET released
+# ================================================================
+# [295000] INICIO                                                                                                  Vector0 : 00000000000000000000  switches=10111110  switches_err=00000000000000000000
+#          RX.inputs (previo): clk=0 rst=0 en=0 sec=00000000000000000000
+# [1355000] RX.EN PULSE  rx_en=1  rx_sec=11100001101010011100
+# [6965000] FIN                                                                                                    Vector0 : 00000000000000000000  dec_listo=1  palabra_o(10b)=1011111000  palabra8_o(8b)=10111110  leds_codigo20=11100001101010011100  valid_pulses=11
+#          RX.inputs (final):  clk=1 rst=0 en=1 sec=11100001101010011100
+# ================================================================
+# ================================================================
+# [7165000] INICIO                                                                                                  Vector1 : 00000000000001000011  switches=10111110  switches_err=00000000000001000011
+#          RX.inputs (previo): clk=0 rst=0 en=0 sec=00000000000000000000
+# [8225000] RX.EN PULSE  rx_en=1  rx_sec=11100001101011011111
+# [13835000] FIN                                                                                                    Vector1 : 00000000000001000011  dec_listo=1  palabra_o(10b)=1011111000  palabra8_o(8b)=10111110  leds_codigo20=11100001101011011111  valid_pulses=11
+#          RX.inputs (final):  clk=1 rst=0 en=1 sec=11100001101011011111
+# ================================================================
+# ================================================================
+# [14035000] INICIO                                                                                                  Vector2 : 00000000000001000111  switches=10111110  switches_err=00000000000001000111
+#          RX.inputs (previo): clk=0 rst=0 en=0 sec=00000000000000000000
+# [15095000] RX.EN PULSE  rx_en=1  rx_sec=11100001101011011011
+# [20705000] FIN                                                                                                    Vector2 : 00000000000001000111  dec_listo=1  palabra_o(10b)=1011110100  palabra8_o(8b)=10111101  leds_codigo20=11100001101011011011  valid_pulses=11
+#          RX.inputs (final):  clk=1 rst=0 en=1 sec=11100001101011011011
+# ================================================================
+# ================================================================
+# [20905000] INICIO                                                                                                  Vector3 : 00000000000001010111  switches=10111110  switches_err=00000000000001010111
+#          RX.inputs (previo): clk=0 rst=0 en=0 sec=00000000000000000000
+# [21965000] RX.EN PULSE  rx_en=1  rx_sec=11100001101011001011
+# [27575000] FIN                                                                                                    Vector3 : 00000000000001010111  dec_listo=1  palabra_o(10b)=1011110100  palabra8_o(8b)=10111101  leds_codigo20=11100001101011001011  valid_pulses=11
+#          RX.inputs (final):  clk=1 rst=0 en=1 sec=11100001101011001011
+# ================================================================
+# ================================================================
+# [27775000] INICIO                                                                                                  Vector4 : 01000000100000000100  switches=10111110  switches_err=01000000100000000100
+#          RX.inputs (previo): clk=0 rst=0 en=0 sec=00000000000000000000
+# [28835000] RX.EN PULSE  rx_en=1  rx_sec=10100001001010011000
+# [34445000] FIN                                                                                                    Vector4 : 01000000100000000100  dec_listo=1  palabra_o(10b)=1011111000  palabra8_o(8b)=10111110  leds_codigo20=10100001001010011000  valid_pulses=11
+#          RX.inputs (final):  clk=1 rst=0 en=1 sec=10100001001010011000
+# ================================================================
+# ================================================================
+# [34645000] INICIO                                                                                                  Vector5 : 01000010000010000001  switches=10111110  switches_err=01000010000010000001
+#          RX.inputs (previo): clk=0 rst=0 en=0 sec=00000000000000000000
+# [35705000] RX.EN PULSE  rx_en=1  rx_sec=10100011101000011101
+# [41315000] FIN                                                                                                    Vector5 : 01000010000010000001  dec_listo=1  palabra_o(10b)=1011111000  palabra8_o(8b)=10111110  leds_codigo20=10100011101000011101  valid_pulses=11
+#          RX.inputs (final):  clk=1 rst=0 en=1 sec=10100011101000011101
+# ================================================================
+# ================================================================
+# [41515000] INICIO                                                                                                  Vector6 : 00100000010000100000  switches=10111110  switches_err=00100000010000100000
+#          RX.inputs (previo): clk=0 rst=0 en=0 sec=00000000000000000000
+# [42575000] RX.EN PULSE  rx_en=1  rx_sec=11000001111010111100
+# [48185000] FIN                                                                                                    Vector6 : 00100000010000100000  dec_listo=1  palabra_o(10b)=1011111000  palabra8_o(8b)=10111110  leds_codigo20=11000001111010111100  valid_pulses=11
+#          RX.inputs (final):  clk=1 rst=0 en=1 sec=11000001111010111100
+# ================================================================
+# ================================================================
+# [48385000] INICIO                                                                                                  Vector7 : 00000100000100001000  switches=10111110  switches_err=00000100000100001000
+#          RX.inputs (previo): clk=0 rst=0 en=0 sec=00000000000000000000
+# [49445000] RX.EN PULSE  rx_en=1  rx_sec=11100101101110010100
+# [55055000] FIN                                                                                                    Vector7 : 00000100000100001000  dec_listo=1  palabra_o(10b)=1011111000  palabra8_o(8b)=10111110  leds_codigo20=11100101101110010100  valid_pulses=11
+#          RX.inputs (final):  clk=1 rst=0 en=1 sec=11100101101110010100
+# ================================================================
+# ================================================================
+# [55255000] INICIO                                                                                                  Vector8 : 00000100000100001001  switches=10111110  switches_err=00000100000100001001
+#          RX.inputs (previo): clk=0 rst=0 en=0 sec=00000000000000000000
+# [56315000] RX.EN PULSE  rx_en=1  rx_sec=11100101101110010101
+# [61925000] FIN                                                                                                    Vector8 : 00000100000100001001  dec_listo=1  palabra_o(10b)=1011111000  palabra8_o(8b)=10111110  leds_codigo20=11100101101110010101  valid_pulses=11
+#          RX.inputs (final):  clk=1 rst=0 en=1 sec=11100101101110010101
+# ================================================================
+# ================================================================
+# [62125000] INICIO                                                                                                  Vector9 : 01000100000100001001  switches=10111110  switches_err=01000100000100001001
+#          RX.inputs (previo): clk=0 rst=0 en=0 sec=00000000000000000000
+# [63185000] RX.EN PULSE  rx_en=1  rx_sec=10100101101110010101
+# [68795000] FIN                                                                                                    Vector9 : 01000100000100001001  dec_listo=1  palabra_o(10b)=1011111000  palabra8_o(8b)=10111110  leds_codigo20=10100101101110010101  valid_pulses=11
+#          RX.inputs (final):  clk=1 rst=0 en=1 sec=10100101101110010101
+# ================================================================
+# ================================================================
+# [68995000] INICIO                                                                                                  Vector10: 00100000010000100001  switches=10111110  switches_err=00100000010000100001
+#          RX.inputs (previo): clk=0 rst=0 en=0 sec=00000000000000000000
+# [70055000] RX.EN PULSE  rx_en=1  rx_sec=11000001111010111101
+# [75665000] FIN                                                                                                    Vector10: 00100000010000100001  dec_listo=1  palabra_o(10b)=1011111000  palabra8_o(8b)=10111110  leds_codigo20=11000001111010111101  valid_pulses=11
+#          RX.inputs (final):  clk=1 rst=0 en=1 sec=11000001111010111101
+# ================================================================
+# ================================================================
+# [75865000] INICIO                                                                                                  Vector11: 01100000000000000000  switches=10111110  switches_err=01100000000000000000
+#          RX.inputs (previo): clk=0 rst=0 en=0 sec=00000000000000000000
+# [76925000] RX.EN PULSE  rx_en=1  rx_sec=10000001101010011100
+# [82535000] FIN                                                                                                    Vector11: 01100000000000000000  dec_listo=1  palabra_o(10b)=1011111000  palabra8_o(8b)=10111110  leds_codigo20=10000001101010011100  valid_pulses=11
+#          RX.inputs (final):  clk=1 rst=0 en=1 sec=10000001101010011100
+# ================================================================
+# ================================================================
+# [82735000] INICIO                                                                                                  Vector12: 01000001000001000001  switches=10111110  switches_err=01000001000001000001
+#          RX.inputs (previo): clk=0 rst=0 en=0 sec=00000000000000000000
+# [83795000] RX.EN PULSE  rx_en=1  rx_sec=10100000101011011101
+# [89405000] FIN                                                                                                    Vector12: 01000001000001000001  dec_listo=1  palabra_o(10b)=1011111000  palabra8_o(8b)=10111110  leds_codigo20=10100000101011011101  valid_pulses=11
+#          RX.inputs (final):  clk=1 rst=0 en=1 sec=10100000101011011101
+# ================================================================
+# ================================================================
+# [89605000] INICIO                                                                                                  Vector13: 10000010000010000010  switches=10111110  switches_err=10000010000010000010
+#          RX.inputs (previo): clk=0 rst=0 en=0 sec=00000000000000000000
+# [90665000] RX.EN PULSE  rx_en=1  rx_sec=01100011101000011110
+# [96275000] FIN                                                                                                    Vector13: 10000010000010000010  dec_listo=1  palabra_o(10b)=1011111000  palabra8_o(8b)=10111110  leds_codigo20=01100011101000011110  valid_pulses=11
+#          RX.inputs (final):  clk=1 rst=0 en=1 sec=01100011101000011110
+# ================================================================
+# ================================================================
+# [96475000] INICIO                                                                                                  Vector14: 10000100001000010000  switches=10111110  switches_err=10000100001000010000
+#          RX.inputs (previo): clk=0 rst=0 en=0 sec=00000000000000000000
+# [97535000] RX.EN PULSE  rx_en=1  rx_sec=01100101100010001100
+# [103145000] FIN                                                                                                    Vector14: 10000100001000010000  dec_listo=1  palabra_o(10b)=1011111000  palabra8_o(8b)=10111110  leds_codigo20=01100101100010001100  valid_pulses=11
+#          RX.inputs (final):  clk=1 rst=0 en=1 sec=01100101100010001100
+# ================================================================
+# ================================================================
+# [103345000] INICIO                                                                                                  Vector15: 10001000100010001000  switches=10111110  switches_err=10001000100010001000
+#          RX.inputs (previo): clk=0 rst=0 en=0 sec=00000000000000000000
+# [104405000] RX.EN PULSE  rx_en=1  rx_sec=01101001001000010100
+# [110015000] FIN                                                                                                    Vector15: 10001000100010001000  dec_listo=1  palabra_o(10b)=1011111000  palabra8_o(8b)=10111110  leds_codigo20=01101001001000010100  valid_pulses=11
+#          RX.inputs (final):  clk=1 rst=0 en=1 sec=01101001001000010100
+# ================================================================
+# ================================================================
+# [110215000] INICIO                                                                                                  Vector16: 00001100000000010000  switches=10111110  switches_err=00001100000000010000
+#          RX.inputs (previo): clk=0 rst=0 en=0 sec=00000000000000000000
+# [111275000] RX.EN PULSE  rx_en=1  rx_sec=11101101101010001100
+# [116885000] FIN                                                                                                    Vector16: 00001100000000010000  dec_listo=1  palabra_o(10b)=1011111000  palabra8_o(8b)=10111110  leds_codigo20=11101101101010001100  valid_pulses=11
+#          RX.inputs (final):  clk=1 rst=0 en=1 sec=11101101101010001100
+# ================================================================
+# ================================================================
+# [117085000] INICIO                                                                                                  Vector17: 00001100000000100000  switches=10111110  switches_err=00001100000000100000
+#          RX.inputs (previo): clk=0 rst=0 en=0 sec=00000000000000000000
+# [118145000] RX.EN PULSE  rx_en=1  rx_sec=11101101101010111100
+# [123755000] FIN                                                                                                    Vector17: 00001100000000100000  dec_listo=1  palabra_o(10b)=1011111000  palabra8_o(8b)=10111110  leds_codigo20=11101101101010111100  valid_pulses=11
+#          RX.inputs (final):  clk=1 rst=0 en=1 sec=11101101101010111100
+# ================================================================
+# Simulacion terminada.
+# ** Note: $finish    : C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/simulation/modelsim/Top_EncDec_BitsError.vt(171)
+#    Time: 123955 ns  Iteration: 1  Instance: /Top_EncDec_BitsError_vlg_tst
+# 1
+# Break in Module Top_EncDec_BitsError_vlg_tst at C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/simulation/modelsim/Top_EncDec_BitsError.vt line 171
+# End time: 13:42:52 on Jun 15,2026, Elapsed time: 0:00:19
+# Errors: 0, Warnings: 3

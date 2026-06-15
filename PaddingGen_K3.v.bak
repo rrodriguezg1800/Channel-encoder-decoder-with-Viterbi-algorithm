@@ -1,0 +1,45 @@
+module PaddingGen_K3 #(
+    parameter integer DATA_BITS = 10,
+    parameter integer PAD_STEPS = 22
+)(
+    input  wire clk,
+    input  wire rst,
+    input  wire par_valido_i,
+    input  wire [1:0] dec_in_i,
+
+    output wire       wr_en_step_o,   // paso real o de padding
+    output wire [1:0] dec_in_eff_o,   // 00 durante padding
+    output reg        pad_active_o,
+    output reg [$clog2(PAD_STEPS+1)-1:0] pad_cnt_o
+);
+    // Contador de pares REALES observados (0..DATA_BITS)
+    reg [$clog2(DATA_BITS+1)-1:0] rx_cnt_q;
+
+    always @(posedge clk or posedge rst) begin
+        if (rst) begin
+            rx_cnt_q     <= 0;
+            pad_active_o <= 1'b0;
+            pad_cnt_o    <= 0;
+        end else begin
+            // Contar pares reales
+            if (par_valido_i && (rx_cnt_q < DATA_BITS))
+                rx_cnt_q <= rx_cnt_q + 1'b1;
+
+            // Armar padding justo al ver el 10º par
+            if (par_valido_i && (rx_cnt_q == DATA_BITS-1)) begin
+                pad_active_o <= 1'b1;
+                pad_cnt_o    <= PAD_STEPS[$clog2(PAD_STEPS+1)-1:0];
+            end
+
+            // Drenar padding (un paso por ciclo)
+            if (pad_active_o) begin
+                if (pad_cnt_o == 1)
+                    pad_active_o <= 1'b0;
+                pad_cnt_o <= pad_cnt_o - 1'b1;
+            end
+        end
+    end
+
+    assign dec_in_eff_o  = pad_active_o ? 2'b00 : dec_in_i;
+    assign wr_en_step_o  = par_valido_i | pad_active_o;
+endmodule

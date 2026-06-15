@@ -1,0 +1,459 @@
+m255
+K4
+z2
+!s11f vlog 2020.1 2020.02, Feb 28 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/simulation/modelsim
+vACS_K3
+Z1 !s110 1781552553
+!i10b 1
+!s100 L[cbPJXf64F2j[VRm6Ob80
+Z2 !s11b Dg1SIo80bB@j0V0VzS_@n1
+IM]0]SNJ1f<RPNOdg0_[H53
+Z3 VDg1SIo80bB@j0V0VzS_@n1
+R0
+w1760072010
+8C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/ACS_K3.v
+FC:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/ACS_K3.v
+!i122 13
+L0 8 86
+Z4 OV;L;2020.1;71
+r1
+!s85 0
+31
+Z5 !s108 1781552553.000000
+!s107 C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/ACS_K3.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError|C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/ACS_K3.v|
+!i113 1
+Z6 o-vlog01compat -work work
+Z7 !s92 -vlog01compat -work work +incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError
+Z8 tCvgOpt 0
+n@a@c@s_@k3
+vAcumulador_Sec_Erronea
+R1
+!i10b 1
+!s100 SXR60k6PmFAYLMQfQ[nO63
+R2
+I`WBVk1`lKPXO?amheV:kU0
+R3
+R0
+w1760072262
+8C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Acumulador_Sec_Erronea.v
+FC:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Acumulador_Sec_Erronea.v
+!i122 15
+L0 1 38
+R4
+r1
+!s85 0
+31
+R5
+!s107 C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Acumulador_Sec_Erronea.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError|C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Acumulador_Sec_Erronea.v|
+!i113 1
+R6
+R7
+R8
+n@acumulador_@sec_@erronea
+vCodConv3
+Z9 !s110 1781552552
+!i10b 1
+!s100 fBZ25<@M5[lOjeA_4d=6H1
+R2
+I@m]aacmjCXao]_8?GnHzZ3
+R3
+R0
+w1760072250
+8C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/CodConv3.v
+FC:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/CodConv3.v
+!i122 1
+L0 1 98
+R4
+r1
+!s85 0
+31
+Z10 !s108 1781552552.000000
+!s107 C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/CodConv3.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError|C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/CodConv3.v|
+!i113 1
+R6
+R7
+R8
+n@cod@conv3
+vDecod_Viterbi_K3
+R9
+!i10b 1
+!s100 g^;dYcLiCk1Jk4BX;ZGTa2
+R2
+IiaTnZB]`Q^fNjS8gzEeo60
+R3
+R0
+w1760071998
+8C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Decod_Viterbi_K3.v
+FC:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Decod_Viterbi_K3.v
+!i122 7
+L0 7 153
+R4
+r1
+!s85 0
+31
+R10
+!s107 C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Decod_Viterbi_K3.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError|C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Decod_Viterbi_K3.v|
+!i113 1
+R6
+R7
+R8
+n@decod_@viterbi_@k3
+vdivisor_frecuencia_v3
+R9
+!i10b 1
+!s100 mbL;DGhcM:<fCm[a_[@6;1
+R2
+IARY`ShEF9=OR8L>e[V[520
+R3
+R0
+w1760072255
+8C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/divisor_frecuencia_v3.v
+FC:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/divisor_frecuencia_v3.v
+!i122 2
+L0 2 22
+R4
+r1
+!s85 0
+31
+R10
+!s107 C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/divisor_frecuencia_v3.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError|C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/divisor_frecuencia_v3.v|
+!i113 1
+R6
+R7
+R8
+vEntrada_8bits
+R9
+!i10b 1
+!s100 Gci@ZT_6`@45CGV8>HaB62
+R2
+IdeE`E5i36<c^jJTQN4KU@0
+R3
+R0
+w1760072243
+8C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Entrada_8bits.v
+FC:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Entrada_8bits.v
+!i122 3
+L0 1 19
+R4
+r1
+!s85 0
+31
+R10
+!s107 C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Entrada_8bits.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError|C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Entrada_8bits.v|
+!i113 1
+R6
+R7
+R8
+n@entrada_8bits
+vFrameControl
+R1
+!i10b 1
+!s100 8jURfWM68]icKe^?>05>12
+R2
+IEJF8AS0]Wi0V6ilW<QMkA2
+R3
+R0
+w1760072018
+8C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/FrameControl.v
+FC:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/FrameControl.v
+!i122 14
+L0 10 81
+R4
+r1
+!s85 0
+31
+R5
+!s107 C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/FrameControl.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError|C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/FrameControl.v|
+!i113 1
+R6
+R7
+R8
+n@frame@control
+vHammingGen_K3
+R9
+!i10b 1
+!s100 i`_Q7zm5=NWe1W;D4[UGY3
+R2
+IDn[Eb;G>jh2cI1PBmU4>i1
+R3
+R0
+w1760072026
+8C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/HammingGen_K3.v
+FC:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/HammingGen_K3.v
+!i122 8
+L0 1 20
+R4
+r1
+!s85 0
+31
+R10
+!s107 C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/HammingGen_K3.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError|C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/HammingGen_K3.v|
+!i113 1
+R6
+R7
+R8
+n@hamming@gen_@k3
+vMetricSelector_K3
+R9
+!i10b 1
+!s100 iG@dfnc^KLX41H[mb]?oJ0
+R2
+IZ;d90dIhS5dYzo5i3Y<6g0
+R3
+R0
+w1760072046
+8C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/MetricSelector_K3.v
+FC:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/MetricSelector_K3.v
+!i122 10
+L0 1 23
+R4
+r1
+!s85 0
+31
+R10
+!s107 C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/MetricSelector_K3.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError|C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/MetricSelector_K3.v|
+!i113 1
+R6
+R7
+R8
+n@metric@selector_@k3
+vPaddingGen_K3
+R9
+!i10b 1
+!s100 1a8QQ?3Zi_d^gK?]>Om0A3
+R2
+Id5@aP?=`b?]]@fMXVCoFI2
+R3
+R0
+w1760072035
+8C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/PaddingGen_K3.v
+FC:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/PaddingGen_K3.v
+!i122 9
+L0 1 39
+R4
+r1
+!s85 0
+31
+R10
+!s107 C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/PaddingGen_K3.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError|C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/PaddingGen_K3.v|
+!i113 1
+R6
+R7
+R8
+n@padding@gen_@k3
+vRuido_Pares20
+R9
+!i10b 1
+!s100 GeUJ:5d7H7PT;InTz?`JJ2
+R2
+IIe=Eg`L^;Z<?b9ZfWB_aP0
+R3
+R0
+w1760072271
+8C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Ruido_Pares20.v
+FC:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Ruido_Pares20.v
+!i122 4
+L0 2 51
+R4
+r1
+!s85 0
+31
+R10
+!s107 C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Ruido_Pares20.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError|C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Ruido_Pares20.v|
+!i113 1
+R6
+R7
+R8
+n@ruido_@pares20
+vserializador
+R1
+!i10b 1
+!s100 ]ljlF`[P:T>ao^NaHm@Wg3
+R2
+IhPKBMkP1hak_J>4[XW2@H2
+R3
+R0
+w1760072061
+8C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/serializador.v
+FC:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/serializador.v
+!i122 16
+L0 1 32
+R4
+r1
+!s85 0
+31
+R5
+!s107 C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/serializador.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError|C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/serializador.v|
+!i113 1
+R6
+R7
+R8
+vTop_Decod_Viterbi_K3
+R9
+!i10b 1
+!s100 iC6Mz4i89N^LDoDZTWU;i2
+R2
+IZGfoE0H_X2Q9;3Lg??2PR2
+R3
+R0
+w1760071989
+8C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Top_Decod_Viterbi_K3.v
+FC:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Top_Decod_Viterbi_K3.v
+!i122 6
+L0 7 38
+R4
+r1
+!s85 0
+31
+R10
+!s107 C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Top_Decod_Viterbi_K3.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError|C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Top_Decod_Viterbi_K3.v|
+!i113 1
+R6
+R7
+R8
+n@top_@decod_@viterbi_@k3
+vTop_EncDec_BitsError
+R1
+!i10b 1
+!s100 P>h[P@n`IfndFR5KOagb=1
+R2
+In5j3m[:Do7lALNOFX00[z1
+R3
+R0
+w1760072402
+8C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Top_EncDec_BitsError.v
+FC:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Top_EncDec_BitsError.v
+!i122 12
+L0 2 74
+R4
+r1
+!s85 0
+31
+R5
+!s107 C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Top_EncDec_BitsError.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError|C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Top_EncDec_BitsError.v|
+!i113 1
+R6
+R7
+R8
+n@top_@enc@dec_@bits@error
+vTop_EncDec_BitsError_vlg_tst
+R1
+!i10b 1
+!s100 KhVo1^FeSjGEzX:On:Miz1
+R2
+I8N9nciV=kc1i_`haaecLS3
+R3
+R0
+w1760072465
+8C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/simulation/modelsim/Top_EncDec_BitsError.vt
+FC:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/simulation/modelsim/Top_EncDec_BitsError.vt
+!i122 17
+L0 2 173
+R4
+r1
+!s85 0
+31
+R5
+!s107 C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/simulation/modelsim/Top_EncDec_BitsError.vt|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/simulation/modelsim|C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/simulation/modelsim/Top_EncDec_BitsError.vt|
+!i113 1
+R6
+!s92 -vlog01compat -work work +incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/simulation/modelsim
+R8
+n@top_@enc@dec_@bits@error_vlg_tst
+vTop_RX
+R9
+!i10b 1
+!s100 GdigOWVcD`OBW6ZfYmY0C3
+R2
+IFGPXM@J>2S;QC4K^:><ln2
+R3
+R0
+w1760071979
+8C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Top_RX.v
+FC:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Top_RX.v
+!i122 5
+L0 6 51
+R4
+r1
+!s85 0
+31
+R10
+!s107 C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Top_RX.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError|C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Top_RX.v|
+!i113 1
+R6
+R7
+R8
+n@top_@r@x
+vTop_TX
+R9
+!i10b 1
+!s100 XM3K5GX0SH[P]<GaCVZ2U1
+R2
+Ie0o0G<<kdzjIjg]gG:S7M1
+R3
+R0
+w1760072235
+8C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Top_TX.v
+FC:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Top_TX.v
+!i122 0
+L0 3 119
+R4
+r1
+!s85 0
+31
+!s108 1781552551.000000
+!s107 C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Top_TX.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError|C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Top_TX.v|
+!i113 1
+R6
+R7
+R8
+n@top_@t@x
+vTraceback_K3
+R9
+!i10b 1
+!s100 j@Z^go;z>SUISKWo:M7MI2
+R2
+I9n@fgUX_jeeGW1;;1P2>70
+R3
+R0
+w1760072054
+8C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Traceback_K3.v
+FC:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Traceback_K3.v
+!i122 11
+L0 4 103
+R4
+r1
+!s85 0
+31
+R10
+!s107 C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Traceback_K3.v|
+!s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError|C:/Users/golyp/Documents/ProyectoTerminal_v/OFICIALES/Encoder_Decoder_Inserting_BitsError/Traceback_K3.v|
+!i113 1
+R6
+R7
+R8
+n@traceback_@k3

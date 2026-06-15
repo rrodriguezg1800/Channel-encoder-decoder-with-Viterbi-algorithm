@@ -1,0 +1,187 @@
+`timescale 1ns/1ps
+// ========================================================
+// Decod_Viterbi_K3_REA (Register-Exchange, streaming)
+// - K=3 (4 estados: A=00, B=01, C=10, D=11)
+// - Emite 1 bit por ciclo con retardo ≈ L
+// - Solo agrega TAIL_BITS=K-1=2 ceros al final (sin PAD=L)
+// - Mantiene métrica de 6 bits (igual que tu diseño)
+// ========================================================
+module Top_Decod_Viterbi_K3_stream #(
+  parameter integer DATA_BITS = 10,
+  parameter integer L         = 20     // mantiene misma BER que tu L anterior
+)(
+  input  wire clk, rst,
+  input  wire par_valido_i,
+  input  wire s1_i,       // bit1 recibido (par alto)
+  input  wire s2_i,       // bit2 recibido (par bajo)
+  output reg  bit_o,      // bit decodificado (stream)
+  output reg  bit_valid_o // 1 cuando bit_o es válido
+);
+  // ------------ Parámetros K=3 ------------
+  localparam integer K          = 3;
+  localparam integer TAIL_BITS  = K-1;     // 2
+  localparam integer MAX_STEPS  = DATA_BITS + TAIL_BITS;
+
+  // ------------ Hamming 2 bits ------------
+  wire [1:0] d00, d01, d10, d11;
+  HammingGen_K3 u_h (
+    .dec_in_i({s1_i,s2_i}), .d00(d00), .d01(d01), .d10(d10), .d11(d11)
+  );
+
+  // ------------ Generador de pasos (solo cola de 2) ------------
+  // wr_en_step: avanza ACS/REA en:
+  //  - cada par válido real
+  //  - y 2 pasos extra de tail "00" al final
+  reg [$clog2(DATA_BITS+1)-1:0] rx_cnt_q;
+  reg [$clog2(TAIL_BITS+1)-1:0] tail_cnt_q;
+  reg tail_active_q;
+
+  wire real_beat = par_valido_i && (rx_cnt_q < DATA_BITS);
+  wire tail_start = (!par_valido_i && (rx_cnt_q == DATA_BITS) && !tail_active_q);
+  wire wr_en_step = real_beat || tail_active_q;
+
+  wire [1:0] in_eff = tail_active_q ? 2'b00 : {s1_i,s2_i};
+
+  always @(posedge clk or posedge rst) begin
+    if (rst) begin
+      rx_cnt_q<=0; tail_cnt_q<=0; tail_active_q<=1'b0;
+    end else begin
+      if (real_beat) rx_cnt_q <= rx_cnt_q + 1'b1;
+
+      if (tail_start) begin
+        tail_active_q <= 1'b1;
+        tail_cnt_q    <= TAIL_BITS-1; // ya contamos 1 paso en este mismo ciclo siguiente
+      end else if (tail_active_q && wr_en_step) begin
+        if (tail_cnt_q==0) tail_active_q <= 1'b0;
+        else               tail_cnt_q    <= tail_cnt_q - 1'b1;
+      end
+    end
+  end
+
+  // ------------ ACS (métricas 6 bits) ------------
+  localparam [5:0] INF = 6'd63;
+  localparam [1:0] A=2'b00, B=2'b01, C=2'b10, D=2'b11;
+
+  reg [5:0] M_A, M_B, M_C, M_D;
+  reg       act_A, act_B, act_C, act_D;
+
+  // Candidatos (mapa igual a tu diseño)
+  wire [5:0] cand_A_from_A = act_A ? (M_A + {4'b0, (in_eff^2'b00)[0] + (in_eff^2'b00)[1]}) : INF; // d00
+  wire [5:0] cand_A_from_B = act_B ? (M_B + {4'b0, (in_eff^2'b11)[0] + (in_eff^2'b11)[1]}) : INF; // d11
+
+  wire [5:0] cand_B_from_C = act_C ? (M_C + {4'b0, (in_eff^2'b10)[0] + (in_eff^2'b10)[1]}) : INF; // d10
+  wire [5:0] cand_B_from_D = act_D ? (M_D + {4'b0, (in_eff^2'b01)[0] + (in_eff^2'b01)[1]}) : INF; // d01
+
+  wire [5:0] cand_C_from_A = act_A ? (M_A + {4'b0, (in_eff^2'b11)[0] + (in_eff^2'b11)[1]}) : INF; // d11
+  wire [5:0] cand_C_from_B = act_B ? (M_B + {4'b0, (in_eff^2'b00)[0] + (in_eff^2'b00)[1]}) : INF; // d00
+
+  wire [5:0] cand_D_from_C = act_C ? (M_C + {4'b0, (in_eff^2'b01)[0] + (in_eff^2'b01)[1]}) : INF; // d01
+  wire [5:0] cand_D_from_D = act_D ? (M_D + {4'b0, (in_eff^2'b10)[0] + (in_eff^2'b10)[1]}) : INF; // d10
+
+  // Selección por destino (best pred + bit u)
+  reg [5:0] best_A_c, best_B_c, best_C_c, best_D_c;
+  reg [1:0] best_A_pred, best_B_pred, best_C_pred, best_D_pred;
+  reg       best_A_u,    best_B_u,    best_C_u,    best_D_u;
+  reg       next_act_A,  next_act_B,  next_act_C,  next_act_D;
+
+  always @* begin
+    // A <= (A,u=0/00) vs (B,u=0/11)
+    next_act_A = act_A | act_B;
+    if (cand_A_from_A <= cand_A_from_B) begin best_A_c=cand_A_from_A; best_A_pred=A; best_A_u=1'b0; end
+    else                                 begin best_A_c=cand_A_from_B; best_A_pred=B; best_A_u=1'b0; end
+
+    // B <= (C,u=0/10) vs (D,u=0/01)
+    next_act_B = act_C | act_D;
+    if (cand_B_from_C <= cand_B_from_D) begin best_B_c=cand_B_from_C; best_B_pred=C; best_B_u=1'b0; end
+    else                                 begin best_B_c=cand_B_from_D; best_B_pred=D; best_B_u=1'b0; end
+
+    // C <= (A,u=1/11) vs (B,u=1/00)
+    next_act_C = act_A | act_B;
+    if (cand_C_from_A <= cand_C_from_B) begin best_C_c=cand_C_from_A; best_C_pred=A; best_C_u=1'b1; end
+    else                                 begin best_C_c=cand_C_from_B; best_C_pred=B; best_C_u=1'b1; end
+
+    // D <= (C,u=1/01) vs (D,u=1/10)
+    next_act_D = act_C | act_D;
+    if (cand_D_from_C <= cand_D_from_D) begin best_D_c=cand_D_from_C; best_D_pred=C; best_D_u=1'b1; end
+    else                                 begin best_D_c=cand_D_from_D; best_D_pred=D; best_D_u=1'b1; end
+  end
+
+  // ------------ Selector de estado mínimo ------------
+  wire [1:0] end_state_w;
+  wire [5:0] gmin_w;
+  MetricSelector_K3 u_sel (
+    .mA(best_A_c), .mB(best_B_c), .mC(best_C_c), .mD(best_D_c),
+    .enA(next_act_A), .enB(next_act_B), .enC(next_act_C), .enD(next_act_D),
+    .min_state_o(end_state_w),
+    .min_metric_o(gmin_w)
+  );
+
+  // ------------ Register-Exchange (paths por estado) ------------
+  // 4 registros de L bits: shift-in con u del destino y *copiando* el camino del predecesor ganador
+  reg [L-1:0] path_A, path_B, path_C, path_D;
+  reg [L-1:0] path_A_n, path_B_n, path_C_n, path_D_n;
+
+  // selecciona camino previo del predecesor
+  wire [L-1:0] sel_pred_A = (best_A_pred==A) ? path_A :
+                            (best_A_pred==B) ? path_B : {L{1'b0}};
+  wire [L-1:0] sel_pred_B = (best_B_pred==C) ? path_C :
+                            (best_B_pred==D) ? path_D : {L{1'b0}};
+  wire [L-1:0] sel_pred_C = (best_C_pred==A) ? path_A :
+                            (best_C_pred==B) ? path_B : {L{1'b0}};
+  wire [L-1:0] sel_pred_D = (best_D_pred==C) ? path_C :
+                            (best_D_pred==D) ? path_D : {L{1'b0}};
+
+  always @* begin
+    path_A_n = { sel_pred_A[L-2:0], best_A_u };
+    path_B_n = { sel_pred_B[L-2:0], best_B_u };
+    path_C_n = { sel_pred_C[L-2:0], best_C_u };
+    path_D_n = { sel_pred_D[L-2:0], best_D_u };
+  end
+
+  // Bit “maduro” del estado mínimo tras el shift (MSB del camino resultante)
+  wire [L-1:0] path_min_n =
+      (end_state_w==A) ? path_A_n :
+      (end_state_w==B) ? path_B_n :
+      (end_state_w==C) ? path_C_n : path_D_n;
+
+  // ------------ Secuencial / emisión streaming ------------
+  reg [$clog2(MAX_STEPS+L+2)-1:0] step_cnt_q; // cuenta global para habilitar válidos
+  always @(posedge clk or posedge rst) begin
+    if (rst) begin
+      // Estado inicial: solo A activo con métrica 0, resto INF (como tu diseño)
+      M_A<=0; M_B<=INF; M_C<=INF; M_D<=INF;
+      act_A<=1; act_B<=0; act_C<=0; act_D<=0;
+      path_A<={L{1'b0}}; path_B<={L{1'b0}}; path_C<={L{1'b0}}; path_D<={L{1'b0}};
+      step_cnt_q<=0;
+      bit_o<=1'b0; bit_valid_o<=1'b0;
+    end else begin
+      bit_valid_o <= 1'b0;
+
+      if (wr_en_step) begin
+        // actualiza métricas y caminos
+        M_A   <= next_act_A ? best_A_c : INF;
+        M_B   <= next_act_B ? best_B_c : INF;
+        M_C   <= next_act_C ? best_C_c : INF;
+        M_D   <= next_act_D ? best_D_c : INF;
+
+        act_A <= next_act_A;
+        act_B <= next_act_B;
+        act_C <= next_act_C;
+        act_D <= next_act_D;
+
+        path_A <= path_A_n;
+        path_B <= path_B_n;
+        path_C <= path_C_n;
+        path_D <= path_D_n;
+
+        step_cnt_q <= step_cnt_q + 1'b1;
+
+        // emite 1 bit/ciclo cuando ya “maduró” L
+        if (step_cnt_q >= (L-1)) begin
+          bit_o       <= path_min_n[L-1];  // MSB del camino del estado mínimo
+          bit_valid_o <= 1'b1;
+        end
+      end
+    end
+  end
+endmodule
